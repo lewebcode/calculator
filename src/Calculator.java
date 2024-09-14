@@ -9,6 +9,7 @@ public class Calculator {
     public static void main(String[] args) {
         Calculator.scanner = new Scanner(System.in);
 
+        //noinspection InfiniteLoopStatement
         while (true) {
             double numberFirst = result;
 
@@ -60,23 +61,20 @@ public class Calculator {
     }
 
     private static double calculate(double numberFirst, double numberSecond, Scanner scanner) {
-        switch (mathOperation) {
-            case "+":
-                return numberFirst + numberSecond;
-            case "-":
-                return numberFirst - numberSecond;
-            case "*":
-                return numberFirst * numberSecond;
-            case "/":
+        return switch (mathOperation) {
+            case "+" -> numberFirst + numberSecond;
+            case "-" -> numberFirst - numberSecond;
+            case "*" -> numberFirst * numberSecond;
+            case "/" -> {
                 while (numberSecond == 0) {
                     System.out.println("Деление на ноль невозможно.");
                     System.out.println("Введите второе число заново");
                     numberSecond = scanner.nextDouble();
                 }
-                return numberFirst / numberSecond;
-            default:
-                return 0;
-        }
+                yield numberFirst / numberSecond;
+            }
+            default -> 0;
+        };
     }
 
     private static void stopProgram() {
